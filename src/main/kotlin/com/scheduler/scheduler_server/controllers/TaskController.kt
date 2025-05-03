@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotBlank
 import org.bson.types.ObjectId
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import java.time.Instant
 
 @RestController
 @RequestMapping("/tasks")
@@ -29,7 +28,9 @@ class TaskController(
         @field:NotBlank(message = "StartAt for the task can't be blank")
         val startAt: String,
         @field:NotBlank(message = "FinishAt for the task can't be blank")
-        val finishAt: String
+        val finishAt: String,
+        val isDone: Boolean = false,
+        val isNotified: Boolean = false
     )
 
     data class TaskResponse(
@@ -41,7 +42,9 @@ class TaskController(
         val duration: Int,
         val category: String?,
         val startAt: String,
-        val finishAt: String
+        val finishAt: String,
+        val isDone: Boolean = false,
+        val isNotified: Boolean = false
     )
 
     @PostMapping
@@ -58,8 +61,10 @@ class TaskController(
                 priority = body.priority,
                 duration = body.duration,
                 category = body.category,
-                startAt = Instant.parse(body.startAt),
-                finishAt = Instant.parse(body.finishAt),
+                startAt = body.startAt,
+                finishAt = body.finishAt,
+                isDone = body.isDone,
+                isNotified = body.isNotified,
                 userId = ObjectId(userId)
             )
         )
@@ -96,7 +101,9 @@ private fun Task.toResponse(): TaskResponse {
         priority = priority,
         duration = duration,
         category = category,
-        startAt = startAt.toString(),
-        finishAt = finishAt.toString()
+        startAt = startAt,
+        finishAt = finishAt,
+        isDone = isDone,
+        isNotified = isNotified
     )
 }

@@ -3,7 +3,6 @@ package com.scheduler.scheduler_server.database.model
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import java.time.Instant
 
 @Document("tasks")
 data class Task(
@@ -13,8 +12,10 @@ data class Task(
     val priority: Int,
     val duration: Int,
     val category: String?,
-    val startAt: Instant,
-    val finishAt: Instant,
+    val startAt: String,
+    val finishAt: String,
+    val isDone: Boolean = false,
+    val isNotified: Boolean = false,
     val userId: ObjectId,
     @Id val id: ObjectId = ObjectId.get()
 )
