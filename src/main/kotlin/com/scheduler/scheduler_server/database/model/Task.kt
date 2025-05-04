@@ -10,7 +10,6 @@ data class Task(
     val description: String?,
     val difficulty: Int,
     val priority: Int,
-    val duration: Int,
     val category: String?,
     val startAt: String,
     val finishAt: String,
